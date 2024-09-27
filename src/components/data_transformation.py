@@ -2,14 +2,16 @@ import sys
 import os
 
 import numpy as np 
-import panda as pd 
+import pandas as pd 
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.pipeline import pipeline
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder,StandardScaler
 
 from src.exception import CustomException
 from src.logger import logging
+from src.utills import save_object
 
 from dataclasses import dataclass
 
@@ -90,24 +92,24 @@ class DataTransformation:
             input_feature_train_arr=preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr=preprocessing_obj.transform(input_feature_test_df)
             
-             train_arr = np.c_[
+            train_arr = np.c_[
                 input_feature_train_arr, np.array(target_feature_train_df)
             ]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
             logging.info(f"Saved preprocessing object.")
 
-            # save_object(
+            save_object(
 
-            #     file_path=self.data_transformation_config.preprocessor_obj_file_path,
-            #     obj=preprocessing_obj
+                file_path=self.data_transformation_config.preprocessed_data_file,
+                obj=preprocessing_obj
 
-            # )
+            )
 
             return (
                 train_arr,
                 test_arr,
-                # self.data_transformation_config.preprocessor_obj_file_path,
+                self.data_transformation_config.preprocessed_data_file,
             )
             
         except Exception as e:
