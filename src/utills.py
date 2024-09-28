@@ -9,7 +9,6 @@ from sklearn.model_selection import GridSearchCV
 
 
 from src.exception import CustomException
-from src.utils import save_object,evaluate_models
 
 
 def save_object(file_path, obj):
